@@ -16,6 +16,7 @@ public enum UtxoPrivateKeyType {
     private func regexForCoin(coin: Coin) -> String {
         switch coin {
         case .hdac: fallthrough
+        case .hdacTest: fallthrough
         case .bitcoin:
             switch self {
             case .hex:

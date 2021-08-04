@@ -16,6 +16,7 @@ public enum Coin {
     case dash
     case dogecoin
     case hdac
+    case hdacTest
     
     //https://github.com/satoshilabs/slips/blob/master/slip-0132.md
     public var privateKeyVersion: UInt32 {
@@ -24,6 +25,7 @@ public enum Coin {
             return 0x019D9CFE
         case .bitcoinCash: fallthrough
         case .hdac: fallthrough
+        case .hdacTest: fallthrough
         case .bitcoin:
             return 0x0488ADE4
         case .dash:
@@ -48,6 +50,8 @@ public enum Coin {
             return 0x1E
         case .hdac:
             return 0x28
+        case .hdacTest:
+            return 0x64
         default:
             fatalError("Not implemented")
         }
@@ -65,6 +69,8 @@ public enum Coin {
         case .dogecoin:
             return 0x16
         case .hdac:
+            return 0x08
+        case .hdacTest:
             return 0x08
         default:
             fatalError("Not implemented")
@@ -84,6 +90,8 @@ public enum Coin {
         case .dash:
             return 0xCC
         case .hdac:
+            return 0x80
+        case .hdacTest:
             return 0x80
         default:
             fatalError("Not implemented")
@@ -120,6 +128,8 @@ public enum Coin {
             return 145
         case .hdac:
             return 200
+        case .hdacTest:
+            return 200
         }
     }
     
@@ -137,6 +147,8 @@ public enum Coin {
             return "dash"
         case .hdac:
             return "hdac"
+        case .hdacTest:
+            return "hdacTest"
         default: return ""
         }
     }

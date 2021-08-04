@@ -41,13 +41,15 @@ public struct PublicKey {
             return generateEthAddress()
         case .hdac:
             return generateHdacAddress()
+        case .hdacTest:
+            return generateHdacTestAddress()
         }
         
     }
     
     public var utxoAddress: Address {
         switch coin {
-        case .bitcoin, .litecoin, .dash, .bitcoinCash, .dogecoin, .hdac:
+        case .bitcoin, .litecoin, .dash, .bitcoinCash, .dogecoin, .hdac, .hdacTest:
             return try! LegacyAddress(address, coin: coin)
         case .ethereum:
             fatalError("Coin does not support UTXO address")
@@ -79,6 +81,18 @@ public struct PublicKey {
         var checksum = (prefix + payload).doubleSHA256.prefix(4)
         checksum = swapUInt32Data(checksum)
         var hdacChecksum = "48444143".hexadecimal
+        hdacChecksum = swapUInt32Data(hdacChecksum!)
+        var result = Data.getxor(left: checksum, right: hdacChecksum!)
+        result = swapUInt32Data(result)
+        return Base58.encode(prefix + payload + result)
+    }
+    
+    func generateHdacTestAddress() -> String {
+        let prefix = Data([coin.publicKeyHash])
+        let payload = RIPEMD160.hash(compressedPublicKey.sha256())
+        var checksum = (prefix + payload).doubleSHA256.prefix(4)
+        checksum = swapUInt32Data(checksum)
+        var hdacChecksum = "48545354".hexadecimal
         hdacChecksum = swapUInt32Data(hdacChecksum!)
         var result = Data.getxor(left: checksum, right: hdacChecksum!)
         result = swapUInt32Data(result)
