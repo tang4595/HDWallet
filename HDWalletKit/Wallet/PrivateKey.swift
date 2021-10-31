@@ -29,6 +29,14 @@ public struct PrivateKey {
         self.keyType = .hd
     }
     
+    public init?(pk: String, chainCode: String) {
+        self.raw = Data(hex: pk)
+        self.chainCode = Data(hex: chainCode)
+        self.index = 0
+        self.coin = .bitcoin
+        self.keyType = .hd
+    }
+    
     public init?(pk: String, coin: Coin) {
         switch coin {
         case .ethereum:
@@ -106,7 +114,7 @@ public struct PrivateKey {
     }
     
     public func derived(at node:DerivationNode) -> PrivateKey {
-        guard keyType == .hd else { fatalError() }
+//        guard keyType == .hd else { fatalError() }
         let edge: UInt32 = 0x80000000
         guard (edge & node.index) == 0 else { fatalError("Invalid child index") }
         
